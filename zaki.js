@@ -892,7 +892,7 @@ case prefix+'ytplay':
             break
         case prefix+'tiktoknowm':
             if (args.length == 0) return reply(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
-            axios.get(`https://api.lolhuman.xyz/api/tiktok?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+            axios.get(`https://api.lolhuman.xyz/api/tiktok/${args[0]}?apikey=${apikey}`).then(({ data }) => {
                 sock.sendMessage(from, { video: { url: data.result.link }, mimetype: 'video/mp4' })
             })
             break
