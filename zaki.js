@@ -566,6 +566,28 @@ const wiwik = `*MAIN MENU*
  • .bot (memanggil bot)
  • .sewa
  
+ *DOWNLOAD MENU*
+ • .ytplay
+ • .ytsearch
+ • .ytmp3
+ • .ytmp4
+ • .telesticker
+ • .tiktoknowm
+ • .tiktokmusic
+ • .spotify
+ • .spotifysearch
+ • .jooxplay
+ • .igdl
+ • .igdl2
+ • .twtdl
+ • .fbdl
+ • .zyppyshare
+ • .pinterest
+ • .pinterest2
+ • .pinterestdl
+ • .lk21
+ • .shopee
+ 
  *CEK NAME GAME*
  • .idml
  • .idff
@@ -584,6 +606,7 @@ const wiwik = `*MAIN MENU*
  • .kurang
  • .kali
  • .bagi
+ 
 *PROSES/DONE*
  • .proses < reply chat >
  • .done < reply chat >
@@ -593,6 +616,7 @@ const wiwik = `*MAIN MENU*
  • .setdone
  • .changedone
  • .delsetdone
+ 
 *GROUP MENU*
  • .linkgc
  • .setppgc
@@ -607,6 +631,7 @@ const wiwik = `*MAIN MENU*
  • .demote
  • .revoke
  • .hidetag
+ 
 *OWNERS MENU*
  • .runtime
  • .join
