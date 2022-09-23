@@ -582,14 +582,10 @@ const wiwik = `*MAIN MENU*
  • .telesticker
  • .tiktoknowm
  • .tiktokmusic
- • .spotify
- • .spotifysearch
- • .jooxplay
  • .igdl
  • .igdl2
  • .twtdl
  • .fbdl
- • .zyppyshare
  • .pinterest
  • .pinterest2
  • .pinterestdl
@@ -774,7 +770,7 @@ break
 			
 			case prefix+'stiker':
         case prefix+'s':
-            if (!(isImage || isQuotedImage || isVideo || isQuotedVideo)) return reply(`Kirim media dengan caption ${prefix + command} atau tag media yang sudah dikirim`)
+            if (!(isImage || isQuotedImage || isVideo || isQuotedVideo)) return replyt(`Kirim media dengan caption ${prefix + command} atau tag media yang sudah dikirim`)
             var stream = await downloadContentFromMessage(msg.message[mediaType], mediaType.replace('Message', ''))
             let stickerStream = new PassThrough()
             if (isImage || isQuotedImage) {
@@ -823,7 +819,7 @@ break
             break
 
 case prefix+'exif':
-			if (!isOwner) return reply(mess.OnlyOwner)
+			if (!isOwner) return replyt(mess.OnlyOwner)
 			    var namaPack = q.split('|')[0] ? q.split('|')[0] : q
                 var authorPack = q.split('|')[1] ? q.split('|')[1] : ''
                 exif.create(namaPack, authorPack)
@@ -835,7 +831,7 @@ case prefix+'exif':
 // DOWNLOAD MENU //
 			
 case prefix+'ytplay':
-            if (args.length == 0) return await reply(`Example: ${prefix + command} melukis senja`)
+            if (args.length == 0) return await replyt(`Example: ${prefix + command} melukis senja`)
             axios
                 .get(`https://api.lolhuman.xyz/api/ytsearch?apikey=${apikey}&query=${full_args}`)
                 .then(({ data }) => {
@@ -908,47 +904,6 @@ case prefix+'ytplay':
             if (args.length == 0) return reply(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
             sock.sendMessage(from, { audio: { url: `https://api.lolhuman.xyz/api/tiktokmusic?apikey=${apikey}&url=${args[0]}` }, mimetype: 'audio/mp4', fileName: `${data.result.title}.mp3`, ptt: true })
             break
-        case prefix+'spotify':
-            if (args.length == 0) return reply(`Example: ${prefix + command} https://open.spotify.com/track/0ZEYRVISCaqz5yamWZWzaA`)
-            axios.get(`https://api.lolhuman.xyz/api/spotify?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
-                var caption = `Title : ${data.result.title}\n`
-                caption += `Artists : ${data.result.artists}\n`
-                caption += `Duration : ${data.result.duration}\n`
-                caption += `Popularity : ${data.result.popularity}\n`
-                caption += `Preview : ${data.result.preview_url}\n`
-                sock.sendMessage(from, { image: { url: data.result.thumbnail }, caption }).then(() => {
-                    sock.sendMessage(from, { audio: { url: data.result.link }, mimetype: 'audio/mp4', fileName: `${data.result.title}.mp3`, ptt: true })
-                })
-            })
-            break
-        case prefix+'spotifysearch':
-            if (args.length == 0) return reply(`Example: ${prefix + command} Melukis Senja`)
-            axios.get(`https://api.lolhuman.xyz/api/spotifysearch?apikey=${apikey}&query=${full_args}`).then(({ data }) => {
-                var text = ''
-                for (var x of data.result) {
-                    text += `Title : ${x.title}\n`
-                    text += `Artists : ${x.artists}\n`
-                    text += `Duration : ${x.duration}\n`
-                    text += `Link : ${x.link}\n`
-                    text += `Preview : ${x.preview_url}\n\n\n`
-                }
-                reply(text)
-            })
-            break
-        case prefix+'jooxplay':
-            if (args.length == 0) return reply(`Example: ${prefix + command} Melukis Senja`)
-            axios.get(`https://api.lolhuman.xyz/api/jooxplay?apikey=${apikey}&query=${full_args}`).then(({ data }) => {
-                var caption = `Title : ${data.result.info.song}\n`
-                caption += `Artists : ${data.result.info.singer}\n`
-                caption += `Duration : ${data.result.info.duration}\n`
-                caption += `Album : ${data.result.info.album}\n`
-                caption += `Uploaded : ${data.result.info.date}\n`
-                caption += `Lirik :\n ${data.result.lirik}\n`
-                sock.sendMessage(from, { image: { url: data.result.image }, caption }).then(() => {
-                    sock.sendMessage(from, { audio: { url: data.result.audio[0].link }, mimetype: 'audio/mp4', fileName: `${data.result.title}.mp3`, ptt: true })
-                })
-            })
-            break
         case prefix+'igdl':
             if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CJ8XKFmJ4al/?igshid=1acpcqo44kgkn`)
             axios.get(`https://api.lolhuman.xyz/api/instagram?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
@@ -982,16 +937,6 @@ case prefix+'ytplay':
             if (args.length == 0) return reply(`Example: ${prefix + command} https://id-id.facebook.com/SamsungGulf/videos/video-bokeh/561108457758458/`)
             axios.get(`https://api.lolhuman.xyz/api/facebook?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
                 sock.sendMessage(from, { video: { url: data.result }, mimetype: 'video/mp4' })
-            })
-            break
-        case prefix+'zippyshare':
-            if (args.length == 0) return reply(`Example: ${prefix + command} https://www51.zippyshare.com/v/5W0TOBz1/file.html`)
-            axios.get(`https://api.lolhuman.xyz/api/zippyshare?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
-                var text = `File Name : ${data.result.name_file}\n`
-                text += `Size : ${data.result.size}\n`
-                text += `Date Upload : ${data.result.date_upload}\n`
-                text += `Download Url : ${data.result.download_url}`
-                reply(text)
             })
             break
         case prefix+'pinterest':
