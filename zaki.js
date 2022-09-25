@@ -411,14 +411,6 @@ if (!isCmd && isGroup && checkResponGroup(from, chats, db_respon_group)) {
         const isQuotedDocument = isQuotedMsg ? content.includes('documentMessage') ? true : false : false
         const isQuotedVideo = isQuotedMsg ? content.includes('videoMessage') ? true : false : false
         const isQuotedSticker = isQuotedMsg ? content.includes('stickerMessage') ? true : false : false
-        
-	var mediaType = type
-    var stream
-    if (isQuotedImage || isQuotedVideo || isQuotedAudio || isQuotedSticker) {
-        mediaType = quotedType
-        msg.message[mediaType] = msg.message.extendedTextMessage.contextInfo.quotedMessage[mediaType]
-        stream = await downloadContentFromMessage(msg.message[mediaType], mediaType.replace('Message', '')).catch(console.error)
-    }
 	
         // Auto Read & Presence Online
         zaki.sendPresenceUpdate('available', from)
@@ -577,9 +569,6 @@ const wiwik = `*MAIN MENU*
  • .stiker
  • .bot (memanggil bot)
  • .sewa
- 
- *DOWNLOAD MENU*
- • .tiktok
  
  *CEK NAME GAME*
  • .idml
@@ -818,14 +807,7 @@ case prefix+'exif':
 			
 			
 // DOWNLOAD MENU //
-			
-case prefix+'tiktok':
-            if (args.length == 0) return replyt(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
-            var { data } = axios.get(`https://api.lolhuman.xyz/api/tiktok/${args[0]}apikey=${apikey}`).then(({ data }) => {
-                sock.sendMessage(from, { video: { url: data.result.link }, mimetype: 'video/mp4' })
-            })
-            break
-			
+
         
 //━━━━━━━━━━━━━━━[ STORE MENU ]━━━━━━━━━━━━━━━━━//
         case prefix+'shop': case prefix + 'list':
