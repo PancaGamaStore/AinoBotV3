@@ -19,6 +19,7 @@ const ms = require("parse-ms");
 const Mfake = fs.readFileSync ('./media/logo.jpg');
 const toMS = require("ms");
 const nou = require("node-os-utils");
+const { TiktokDownloader } = require('./tiktokdl');
 let { sizeFormatter } = require("human-readable");
 let format = sizeFormatter({
   std: "JEDEC", // 'SI' (default) | 'IEC' | 'JEDEC'
@@ -554,6 +555,9 @@ const wiwik = `*MAIN MENU*
  • .self
  • .public
  • .setppbot
+ • >
+ • $
+ • =>
  • .broadcast`
         
         switch (command || triggerSticker()) {
@@ -768,55 +772,55 @@ let timetext =`*Runtime Bot :*\n_${runtime(process.uptime())}_`
 replyt(timetext)
 break
 			
-			case prefix+'stiker':
-        case prefix+'s':
-            if (!(isImage || isQuotedImage || isVideo || isQuotedVideo)) return replyt(`Kirim media dengan caption ${prefix + command} atau tag media yang sudah dikirim`)
-            var stream = await downloadContentFromMessage(msg.message[mediaType], mediaType.replace('Message', ''))
-            let stickerStream = new PassThrough()
-            if (isImage || isQuotedImage) {
-                ffmpeg(stream)
-                    .on('start', function (cmd) {
-                        console.log(`Started : ${cmd}`)
-                    })
-                    .on('error', function (err) {
-                        console.log(`Error : ${err}`)
-                    })
-                    .on('end', function () {
-                        console.log('Finish')
-                    })
-                    .addOutputOptions([
-                        `-vcodec`,
-                        `libwebp`,
-                        `-vf`,
-                        `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`,
-                    ])
-                    .toFormat('webp')
-                    .writeToStream(stickerStream)
-                sock.sendMessage(from, { sticker: { stream: stickerStream } })
-            } else if (isVideo || isQuotedVideo) {
-                ffmpeg(stream)
-                    .on('start', function (cmd) {
-                        console.log(`Started : ${cmd}`)
-                    })
-                    .on('error', function (err) {
-                        console.log(`Error : ${err}`)
-                    })
-                    .on('end', async () => {
-                        sock.sendMessage(from, { sticker: { url: `./temp/stickers/${sender}.webp` } }).then(() => {
-                            fs.unlinkSync(`./temp/stickers/${sender}.webp`)
-                            console.log('Finish')
-                        })
-                    })
-                    .addOutputOptions([
-                        `-vcodec`,
-                        `libwebp`,
-                        `-vf`,
-                        `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`,
-                    ])
-                    .toFormat('webp')
-                    .save(`./temp/stickers/${sender}.webp`)
-            }
-            break
+case prefix+'sticker': case prefix+'stiker': case prefix+'s':
+			    if (isImage || isQuotedImage) {
+		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
+			       var buffer = Buffer.from([])
+			       for await(const chunk of stream) {
+			          buffer = Buffer.concat([buffer, chunk])
+			       }
+			       var rand1 = 'sticker/'+getRandom('.jpg')
+			       var rand2 = 'sticker/'+getRandom('.webp')
+			       fs.writeFileSync(`./${rand1}`, buffer)
+			       ffmpeg(`./${rand1}`)
+				.on("error", console.error)
+				.on("end", () => {
+				  exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
+				    zaki.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) }, { quoted: msg })
+				    
+					fs.unlinkSync(`./${rand1}`)
+			            fs.unlinkSync(`./${rand2}`)
+			          })
+				 })
+				.addOutputOptions(["-vcodec", "libwebp", "-vf", "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse"])
+				.toFormat('webp')
+				.save(`${rand2}`)
+			    } else if (isVideo || isQuotedVideo) {
+				 var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.videoMessage, 'video')
+				 var buffer = Buffer.from([])
+				 for await(const chunk of stream) {
+				   buffer = Buffer.concat([buffer, chunk])
+				 }
+			     var rand1 = 'sticker/'+getRandom('.mp4')
+				 var rand2 = 'sticker/'+getRandom('.webp')
+			         fs.writeFileSync(`./${rand1}`, buffer)
+			         ffmpeg(`./${rand1}`)
+				  .on("error", console.error)
+				  .on("end", () => {
+				    exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
+				      zaki.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) }, { quoted: msg })
+				      
+					  fs.unlinkSync(`./${rand1}`)
+				      fs.unlinkSync(`./${rand2}`)
+				    })
+				  })
+				 .addOutputOptions(["-vcodec", "libwebp", "-vf", "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse"])
+				 .toFormat('webp')
+				 .save(`${rand2}`)
+                } else {
+			       replyt(`Kirim gambar/vidio dengan caption ${command} atau balas gambar/vidio yang sudah dikirim\nNote : Maximal vidio 10 detik!`)
+			    }
+			    break
 
 case prefix+'exif':
 			if (!isOwner) return replyt(mess.OnlyOwner)
@@ -830,7 +834,21 @@ case prefix+'exif':
 			
 // DOWNLOAD MENU //
 			
-
+case 'toimage': case 'toimg': {
+if (!quoted) throw 'Reply Image'
+if (!/webp/.test(mime)) throw `balas stiker dengan caption *${prefix + command}*`
+sticWait(from)
+let media = await zaki.downloadAndSaveMediaMessage(quoted)
+let ran = await getRandom('.png')
+exec(`ffmpeg -i ${media} ${ran}`, (err) => {
+fs.unlinkSync(media)
+if (err) throw err
+let buffer = fs.readFileSync(ran)
+zaki.sendMessage(m.chat, { image: buffer }, { quoted: m })
+fs.unlinkSync(ran)
+})
+}
+break
 			
         
 //━━━━━━━━━━━━━━━[ STORE MENU ]━━━━━━━━━━━━━━━━━//
