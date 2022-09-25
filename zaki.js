@@ -747,7 +747,6 @@ replyt(timetext)
 break
 			
 case prefix+'sticker': case prefix+'stiker': case prefix+'s':
-                   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
                    if (isImage || isQuotedImage) {
                      addCountCmd('#sticker', sender, _cmd)
                      var media = await zaki.downloadAndSaveMediaMessage(msg, 'image', `./sticker/${sender}.jpeg`)
@@ -780,7 +779,7 @@ case prefix+'sticker': case prefix+'stiker': case prefix+'s':
                      reply(`Kirim/Balas gambar/video/sticker dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
                    }
                    break
-
+			
 case prefix+'exif':
 			if (!isOwner) return replyt(mess.OnlyOwner)
 			    var namaPack = q.split('|')[0] ? q.split('|')[0] : q
