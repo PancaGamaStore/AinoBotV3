@@ -579,22 +579,7 @@ const wiwik = `*MAIN MENU*
  • .sewa
  
  *DOWNLOAD MENU*
- • .ytplay
- • .ytsearch
- • .ytmp3
- • .ytmp4
- • .telesticker
- • .tiktoknowm
- • .tiktokmusic
- • .igdl
- • .igdl2
- • .twtdl
- • .fbdl
- • .pinterest
- • .pinterest2
- • .pinterestdl
- • .lk21
- • .shopee
+ • .tiktok
  
  *CEK NAME GAME*
  • .idml
@@ -834,21 +819,12 @@ case prefix+'exif':
 			
 // DOWNLOAD MENU //
 			
-case 'toimage': case 'toimg': {
-if (!quoted) throw 'Reply Image'
-if (!/webp/.test(mime)) throw `balas stiker dengan caption *${prefix + command}*`
-sticWait(from)
-let media = await zaki.downloadAndSaveMediaMessage(quoted)
-let ran = await getRandom('.png')
-exec(`ffmpeg -i ${media} ${ran}`, (err) => {
-fs.unlinkSync(media)
-if (err) throw err
-let buffer = fs.readFileSync(ran)
-zaki.sendMessage(m.chat, { image: buffer }, { quoted: m })
-fs.unlinkSync(ran)
-})
-}
-break
+case prefix+'tiktok':
+            if (args.length == 0) return replyt(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
+            var { data } = axios.get(`https://api.lolhuman.xyz/api/tiktok/${args[0]}apikey=${apikey}`).then(({ data }) => {
+                sock.sendMessage(from, { video: { url: data.result.link }, mimetype: 'video/mp4' })
+            })
+            break
 			
         
 //━━━━━━━━━━━━━━━[ STORE MENU ]━━━━━━━━━━━━━━━━━//
