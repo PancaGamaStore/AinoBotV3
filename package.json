@@ -13,7 +13,7 @@
   "author": "jo",
   "license": "MIT",
   "dependencies": {
-    "@adiwajshing/baileys": "^github:hardianto-cpu/Baileys",
+    "@adiwajshing/baileys": "github:hardianto-cpu/Baileys",
     "@adiwajshing/keyed-db": "^0.2.4",
     "awesome-phonenumber": "^2.69.0",
     "axios": "^0.24.0",
