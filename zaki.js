@@ -747,54 +747,39 @@ replyt(timetext)
 break
 			
 case prefix+'sticker': case prefix+'stiker': case prefix+'s':
-			    if (isImage || isQuotedImage) {
-		           var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.imageMessage, 'image')
-			       var buffer = Buffer.from([])
-			       for await(const chunk of stream) {
-			          buffer = Buffer.concat([buffer, chunk])
-			       }
-			       var rand1 = 'sticker/'+getRandom('.jpg')
-			       var rand2 = 'sticker/'+getRandom('.webp')
-			       fs.writeFileSync(`./${rand1}`, buffer)
-			       ffmpeg(`./${rand1}`)
-				.on("error", console.error)
-				.on("end", () => {
-				  exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
-				    zaki.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) }, { quoted: msg })
-				    
-					fs.unlinkSync(`./${rand1}`)
-			            fs.unlinkSync(`./${rand2}`)
-			          })
-				 })
-				.addOutputOptions(["-vcodec", "libwebp", "-vf", "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse"])
-				.toFormat('webp')
-				.save(`${rand2}`)
-			    } else if (isVideo || isQuotedVideo) {
-				 var stream = await downloadContentFromMessage(msg.message.imageMessage || msg.message.extendedTextMessage?.contextInfo.quotedMessage.videoMessage, 'video')
-				 var buffer = Buffer.from([])
-				 for await(const chunk of stream) {
-				   buffer = Buffer.concat([buffer, chunk])
-				 }
-			     var rand1 = 'sticker/'+getRandom('.mp4')
-				 var rand2 = 'sticker/'+getRandom('.webp')
-			         fs.writeFileSync(`./${rand1}`, buffer)
-			         ffmpeg(`./${rand1}`)
-				  .on("error", console.error)
-				  .on("end", () => {
-				    exec(`webpmux -set exif ./sticker/data.exif ./${rand2} -o ./${rand2}`, async (error) => {
-				      zaki.sendMessage(from, { sticker: fs.readFileSync(`./${rand2}`) }, { quoted: msg })
-				      
-					  fs.unlinkSync(`./${rand1}`)
-				      fs.unlinkSync(`./${rand2}`)
-				    })
-				  })
-				 .addOutputOptions(["-vcodec", "libwebp", "-vf", "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse"])
-				 .toFormat('webp')
-				 .save(`${rand2}`)
-                } else {
-			       replyt(`Kirim gambar/vidio dengan caption ${command} atau balas gambar/vidio yang sudah dikirim\nNote : Maximal vidio 10 detik!`)
-			    }
-			    break
+                   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply (`Limit kamu sudah habis silahkan kirim ${prefix}limit untuk mengecek limit`)
+                   if (isImage || isQuotedImage) {
+                     addCountCmd('#sticker', sender, _cmd)
+                     var media = await zaki.downloadAndSaveMediaMessage(msg, 'image', `./sticker/${sender}.jpeg`)
+                     var opt = { packname: '© Chitanda - MD', author: 'KiZakiXD' }
+                     zaki.sendImageAsSticker(from, media, msg, opt)
+                     .then( res => {
+                     fs.unlinkSync(media)
+                     }).catch((e) => reply(mess.error.api))
+                   } else if (isVideo || isQuotedVideo) {
+                     if (args.length < 2) return reply(`Kirim/Balas gambar/video/sticker dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
+                     reply(mess.wait)
+                     var media = await zaki.downloadAndSaveMediaMessage(msg, 'video', `./sticker/${sender}.jpeg`)
+                     var opt = { packname: '©Chitanda - MD', author: 'KiZakiXD' }
+                     zaki.sendImageAsSticker(from, media, msg, opt)
+                     .then( res => {
+                       fs.unlinkSync(media)
+                     }).catch((e) => reply(mess.error.api))
+                   } else if (isQuotedSticker) {
+                     if (args.length < 2) return reply(`Penggunaan ${command} nama|author`)
+                     reply(mess.wait)
+                     var media = quotedMsg['stickerMessage'].isAnimated !== true ? await zaki.downloadAndSaveMediaMessage(msg, 'sticker', `./sticker/${sender}.jpeg`) : await zaki.downloadAndSaveMediaMessage(msg, 'sticker', `./sticker/${sender}.webp`)
+                     media = quotedMsg['stickerMessage'].isAnimated !== true ? media : (await webp2mp4File(media)).data
+                     var opt = { packname: '© Chitanda - MD', author: 'KiZakiXD' }
+                     quotedMsg['stickerMessage'].isAnimated !== true ?
+                      zaki.sendImageAsSticker(from, media, msg, opt)
+                       .then( res => { fs.unlinkSync(media) }).catch((e) => reply(mess.error.api))
+                       : zaki.sendVideoAsSticker(from, media, msg, opt)
+                        .then( res => { fs.unlinkSync(`./sticker/${sender}.webp`) }).catch((e) => reply(mess.error.api))
+                   } else {
+                     reply(`Kirim/Balas gambar/video/sticker dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
+                   }
+                   break
 
 case prefix+'exif':
 			if (!isOwner) return replyt(mess.OnlyOwner)
