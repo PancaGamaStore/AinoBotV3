@@ -621,7 +621,10 @@ const wiwik = `*MAIN MENU*
  • .self
  • .public
  • .setppbot
- • .broadcast`)
+ • .broadcast
+ • >
+ • $
+ • =>`)
 break
         
         case prefix+'owner': case prefix+'dev':
