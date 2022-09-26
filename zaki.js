@@ -595,7 +595,7 @@ mediaType: 1,
             break
 			
 	case 'bot': case prefix+'bot':
-		replyt(`Bot Aktif Woi`)
+		replyt(`Apa? Bot Aktif Woi`)
 			break
 			
 	case prefix+'sewa':
