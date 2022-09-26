@@ -758,19 +758,19 @@ case prefix+'exif':
 // DOWNLOAD MENU //
 
 case prefix+'tiktok': case prefix+'tiktoknowm':
-if (args.length == 0) return replyt(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
-axios.get(`https://api.lolhuman.xyz/api/tiktok?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+if (args.length == 1) return replyt(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
+axios.get(`https://api.lolhuman.xyz/api/tiktok?apikey=${apikey}&url=${args[1]}`).then(({ data }) => {
                  zaki.sendMessage(from, { video: { url: data.result.link }, caption: `• Title : ${data.result.title} \n*• Keywords :* ${data.result.keywords} \n`, mimetype: 'video/mp4' })})
 break
 case prefix+'tiktokaudio': case prefix+'tiktokmusic':
-if (args.length == 0) return replyt(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
-axios.get(`https://api.lolhuman.xyz/api/tiktok?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+if (args.length == 1) return replyt(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
+axios.get(`https://api.lolhuman.xyz/api/tiktok?apikey=${apikey}&url=${args[1]}`).then(({ data }) => {
                  zaki.sendMessage(from, { audio: { url: data.result.link }, mimetype: 'audio/mp4' })})
 break
 case prefix+'ytsearch': case prefix+'yts':
-if (args.length == 0) return replyt(`Example: ${prefix + command} Melukis Senja`)
+if (args.length == 1) return replyt(`Example: ${prefix + command} Melukis Senja`)
  axios
-                .get(`https://api.lolhuman.xyz/api/ytsearch?apikey=${apikey}&query=${args[0]}`)
+                .get(`https://api.lolhuman.xyz/api/ytsearch?apikey=${apikey}&query=${args[1]}`)
                 .then(({ data }) => {
                     var text = ''
                     for (var x of data.result) {
@@ -784,9 +784,9 @@ if (args.length == 0) return replyt(`Example: ${prefix + command} Melukis Senja`
                 })
 break
 case prefix+'ytmp3': case prefix+'ytaudio':
-if (args.length == 0) return replyt(`Example: ${prefix + command} https://www.youtube.com/watch?v=qZIQAk-BUEc`)
+if (args.length == 1) return replyt(`Example: ${prefix + command} https://www.youtube.com/watch?v=qZIQAk-BUEc`)
 axios
-                .get(`https://api.lolhuman.xyz/api/ytaudio2?apikey=${apikey}&url=${args[0]}`)
+                .get(`https://api.lolhuman.xyz/api/ytaudio2?apikey=${apikey}&url=${args[1]}`)
                 .then(({ data }) => {
                     var caption = `❖ Title    : ${data.result.title}\n`
                     caption += `❖ Size     : ${data.result.size}\n\n File Sedang Dikirim, Mohon Tunggu Sebentar.`
@@ -796,9 +796,9 @@ axios
                 })
 break
 case prefix+'ytvideo': case prefix+'ytmp4': case prefix+'ytdl':
-if (args.length == 0) return replyt(`Example: ${prefix + command} https://www.youtube.com/watch?v=WgJZNE2RJpc`)
+if (args.length == 1) return replyt(`Example: ${prefix + command} https://www.youtube.com/watch?v=WgJZNE2RJpc`)
 axios
-                .get(`https://api.lolhuman.xyz/api/ytvideo2?apikey=${apikey}&url=${args[0]}`)
+                .get(`https://api.lolhuman.xyz/api/ytvideo2?apikey=${apikey}&url=${args[1]}`)
                 .then(({ data }) => {
                     var caption = `❖ Title    : ${data.result.title}\n`
                     caption += `❖ Size     : ${data.result.size}\n\n Mohon Tunggu Sebentar, File Sedang Dikirim.`
@@ -808,8 +808,8 @@ axios
                 })
 break
 case prefix+'igdl': case prefix+'ig': case prefix+'instagram':
-if (args.length == 0) return replyt(`Example: ${prefix + command} https://www.instagram.com/p/Ci7uHJPhJcy/?igshid=YmMyMTA2M2Y=`)
-axios.get(`https://api.lolhuman.xyz/api/instagram?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+if (args.length == 1) return replyt(`Example: ${prefix + command} https://www.instagram.com/p/Ci7uHJPhJcy/?igshid=YmMyMTA2M2Y=`)
+axios.get(`https://api.lolhuman.xyz/api/instagram?apikey=${apikey}&url=${args[1]}`).then(({ data }) => {
                 var url = data.result
                 if (url.includes('.mp4')) {
                     zaki.sendMessage(from, { video: { url }, mimetype: 'video/mp4' })
@@ -819,8 +819,8 @@ axios.get(`https://api.lolhuman.xyz/api/instagram?apikey=${apikey}&url=${args[0]
             })
 break
 case prefix+'igdl2': case prefix+'ig2': case prefix+'instagram2':
-if (args.length == 0) return replyt(`Example: ${prefix + command} https://www.instagram.com/p/Ci7uHJPhJcy/?igshid=YmMyMTA2M2Y=`)
-axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+if (args.length == 1) return replyt(`Example: ${prefix + command} https://www.instagram.com/p/Ci7uHJPhJcy/?igshid=YmMyMTA2M2Y=`)
+axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${apikey}&url=${args[1]}`).then(({ data }) => {
                 for (var x of data.result.media) {
                     if (x.includes('.mp4')) {
                         zaki.sendMessage(from, { video: { url: x }, mimetype: 'video/mp4' })
