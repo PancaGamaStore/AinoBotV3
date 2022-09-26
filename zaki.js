@@ -585,7 +585,7 @@ mediaType: 1,
                title: `Bot WhatsApp Store`,
                renderLargerThumbnail: true,
                thumbnail: pp,
-               sourceUrl: 'https://chat.whatsapp.com/L2hJAaHZYPHHkcjFsBr3vE'
+               sourceUrl: 'https://chat.whatsapp.com/Lux3XwVWMbQ5THltqZVykk'
 }} }, m)
 	break
         
