@@ -494,81 +494,16 @@ const wiwik = `*MAIN MENU*
  • .owner
  • .stiker
  • .bot (memanggil bot)
- 
- *CEK NAME GAME*
- • .idml
- • .idff
- • .idhiggs
- • .idpubg
- • .idcodm
- • .idgenshin
- • .idsausage
-
-
-*STORE MENU*
- • .list
- • .addlist
- • .dellist
- • .update
- • .tambah
- • .kurang
- • .kali
- • .bagi
- 
-*PROSES/DONE*
- • .proses < reply chat >
- • .done < reply chat >
- • .setproses
- • .changeproses
- • .delsetproses
- • .setdone
- • .changedone
- • .delsetdone
- 
-*GROUP MENU*
- • .linkgc
- • .setppgc
- • .setnamegc
- • .setdesc
- • .antilink
- • .open
- • .close
- • .add
- • .kick
- • .promote
- • .demote
- • .revoke
- • .hidetag
- 
-*OWNERS MENU*
- • .runtime
- • .join
- • .left
- • .self
- • .public
- • .setppbot
- • >
- • $
- • =>
- • .broadcast`
-        
-        switch (command || triggerSticker()) {
-        
-//━━━━━━━━━━━━━━━[ MAIN MENU ]━━━━━━━━━━━━━━━━━//
-        case prefix+'ayamete':
-                   var media = await reSize(setting.pathimg, 300, 300)
-                   zaki.sendMessage(from, { caption: wiwik, location: { jpegThumbnail: media }, templateButtons: buttonsDefault, footer: footer, mentions: [sender] }, { quoted: msg })
-                   break
-			
-	case prefix+'menu':
-	case 'menu':
-	case prefix+'help':
-	case 'help':
-	replyt(`*MAIN MENU*
- • .owner
- • .stiker
- • .bot (memanggil bot)
  • .sewa
+ 
+ *DOWNLOAD MENU*
+ • .tiktok
+ • .tiktokaudio
+ • .ytsearch
+ • .ytmp3
+ • .ytdl
+ • .ig
+ • .ig2
  
  *CEK NAME GAME*
  • .idml
@@ -624,8 +559,35 @@ const wiwik = `*MAIN MENU*
  • .broadcast
  • >
  • $
- • =>`)
-break
+ • =>`
+        
+        switch (command || triggerSticker()) {
+        
+//━━━━━━━━━━━━━━━[ MAIN MENU ]━━━━━━━━━━━━━━━━━//
+        case prefix+'ayamete':
+                   var media = await reSize(setting.pathimg, 300, 300)
+                   zaki.sendMessage(from, { caption: wiwik, location: { jpegThumbnail: media }, templateButtons: buttonsDefault, footer: footer, mentions: [sender] }, { quoted: msg })
+                   break
+
+	case prefix+'menu':
+	case 'menu':
+	case prefix+'help':
+	case 'help':		
+	var hudu = [ 'application/pdf' , 'application/vnd.openxmlformats-officedocument.presentationml.presentation' , 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+let filerdm = hudu[Math.floor(Math.random() * hudu.length)]
+let buttons = [
+{buttonId: `.owner`, buttonText: {displayText: 'OWNER'}, type: 1},{buttonId: `.sewa`, buttonText: {displayText: 'SEWA BOT'}, type: 1}
+]
+ let pp = await getBuffer('https://telegra.ph/file/30a330b52fe1f93e6fd3d.jpg')
+zaki.sendMessage(from, { document: fs.readFileSync('./media/logo.jpg'), mimetype: filerdm, caption: wiwik, jpegThumbnail: pp, fileName: `Hello ${pushname} 👋.}`, fileLength: '99999999999999999', mentions: [m.sender, "6287734276016@s.whatsapp.net"], buttons: buttons, footer: '© AinoBotV03', headerType: 4, contextInfo:{externalAdReply:{
+showAdAttribution: true,
+mediaType: 1,
+               title: `Bot WhatsApp Store`,
+               renderLargerThumbnail: true,
+               thumbnail: pp,
+               sourceUrl: 'https://chat.whatsapp.com/L2hJAaHZYPHHkcjFsBr3vE'
+}} }, m)
+	break
         
         case prefix+'owner': case prefix+'dev':
             sendContact(from, ownerNumber.split('@s.whatsapp.net')[0], ownerName, troli)
@@ -753,33 +715,33 @@ case prefix+'sticker': case prefix+'stiker': case prefix+'s':
                    if (isImage || isQuotedImage) {
                      addCountCmd('#sticker', sender, _cmd)
                      var media = await zaki.downloadAndSaveMediaMessage(msg, 'image', `./sticker/${sender}.jpeg`)
-                     var opt = { packname: '© Chitanda - MD', author: 'KiZakiXD' }
+                     var opt = { packname: '© Jo', author: 'Jo Official' }
                      zaki.sendImageAsSticker(from, media, msg, opt)
                      .then( res => {
                      fs.unlinkSync(media)
                      }).catch((e) => reply(mess.error.api))
                    } else if (isVideo || isQuotedVideo) {
-                     if (args.length < 2) return reply(`Kirim/Balas gambar/video/sticker dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
+                     if (args.length < 2) return replyt(`Kirim/Balas gambar/video/sticker dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
                      reply(mess.wait)
                      var media = await zaki.downloadAndSaveMediaMessage(msg, 'video', `./sticker/${sender}.jpeg`)
-                     var opt = { packname: '©Chitanda - MD', author: 'KiZakiXD' }
+                     var opt = { packname: '©Jo', author: 'Jo Official' }
                      zaki.sendImageAsSticker(from, media, msg, opt)
                      .then( res => {
                        fs.unlinkSync(media)
                      }).catch((e) => reply(mess.error.api))
                    } else if (isQuotedSticker) {
-                     if (args.length < 2) return reply(`Penggunaan ${command} nama|author`)
+                     if (args.length < 2) return replyt(`Penggunaan ${command} nama|author`)
                      reply(mess.wait)
                      var media = quotedMsg['stickerMessage'].isAnimated !== true ? await zaki.downloadAndSaveMediaMessage(msg, 'sticker', `./sticker/${sender}.jpeg`) : await zaki.downloadAndSaveMediaMessage(msg, 'sticker', `./sticker/${sender}.webp`)
                      media = quotedMsg['stickerMessage'].isAnimated !== true ? media : (await webp2mp4File(media)).data
-                     var opt = { packname: '© Chitanda - MD', author: 'KiZakiXD' }
+                     var opt = { packname: '© Jo', author: 'Jo Official' }
                      quotedMsg['stickerMessage'].isAnimated !== true ?
                       zaki.sendImageAsSticker(from, media, msg, opt)
                        .then( res => { fs.unlinkSync(media) }).catch((e) => reply(mess.error.api))
                        : zaki.sendVideoAsSticker(from, media, msg, opt)
                         .then( res => { fs.unlinkSync(`./sticker/${sender}.webp`) }).catch((e) => reply(mess.error.api))
                    } else {
-                     reply(`Kirim/Balas gambar/video/sticker dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
+                     replyt(`Kirim/Balas gambar/video/sticker dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
                    }
                    break
 			
@@ -795,7 +757,79 @@ case prefix+'exif':
 			
 // DOWNLOAD MENU //
 
-        
+case prefix+'tiktok': case prefix+'tiktoknowm':
+if (args.length == 0) return replyt(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
+axios.get(`https://api.lolhuman.xyz/api/tiktok?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+                 zaki.sendMessage(from, { video: { url: data.result.link }, caption: `• Title : ${data.result.title} \n*• Keywords :* ${data.result.keywords} \n`, mimetype: 'video/mp4' })})
+break
+case prefix+'tiktokaudio': case prefix+'tiktokmusic':
+if (args.length == 0) return replyt(`Example: ${prefix + command} https://vt.tiktok.com/ZSwWCk5o/`)
+axios.get(`https://api.lolhuman.xyz/api/tiktok?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+                 zaki.sendMessage(from, { audio: { url: data.result.link }, mimetype: 'audio/mp4' })})
+break
+case prefix+'ytsearch': case prefix+'yts':
+if (args.length == 0) return replyt(`Example: ${prefix + command} Melukis Senja`)
+ axios
+                .get(`https://api.lolhuman.xyz/api/ytsearch?apikey=${apikey}&query=${args[0]}`)
+                .then(({ data }) => {
+                    var text = ''
+                    for (var x of data.result) {
+                        text += `Title : ${x.title}\n`
+                        text += `Views : ${x.views}\n`
+                        text += `Published : ${x.published}\n`
+                        text += `Thumbnail : ${x.thumbnail}\n`
+                        text += `Link : https://www.youtube.com/watch?v=${x.videoId}\n\n`
+                    }
+                    replyt(text)
+                })
+break
+case prefix+'ytmp3': case prefix+'ytaudio':
+if (args.length == 0) return replyt(`Example: ${prefix + command} https://www.youtube.com/watch?v=qZIQAk-BUEc`)
+axios
+                .get(`https://api.lolhuman.xyz/api/ytaudio2?apikey=${apikey}&url=${args[0]}`)
+                .then(({ data }) => {
+                    var caption = `❖ Title    : ${data.result.title}\n`
+                    caption += `❖ Size     : ${data.result.size}\n\n File Sedang Dikirim, Mohon Tunggu Sebentar.`
+                    zaki.sendMessage(from, { image: { url: data.result.thumbnail }, caption }).then(() => {
+                        zaki.sendMessage(from, { audio: { url: data.result.link }, mimetype: 'audio/mp4', fileName: `${data.result.title}.mp3`, ptt: false })
+                    })
+                })
+break
+case prefix+'ytvideo': case prefix+'ytmp4': case prefix+'ytdl':
+if (args.length == 0) return replyt(`Example: ${prefix + command} https://www.youtube.com/watch?v=WgJZNE2RJpc`)
+axios
+                .get(`https://api.lolhuman.xyz/api/ytvideo2?apikey=${apikey}&url=${args[0]}`)
+                .then(({ data }) => {
+                    var caption = `❖ Title    : ${data.result.title}\n`
+                    caption += `❖ Size     : ${data.result.size}\n\n Mohon Tunggu Sebentar, File Sedang Dikirim.`
+                    zaki.sendMessage(from, { image: { url: data.result.thumbnail }, caption }).then(() => {
+                        zaki.sendMessage(from, { audio: { url: data.result.link }, mimetype: 'video/mp4', fileName: `${data.result.title}.mp4` })
+                    })
+                })
+break
+case prefix+'igdl': case prefix+'ig': case prefix+'instagram':
+if (args.length == 0) return replyt(`Example: ${prefix + command} https://www.instagram.com/p/Ci7uHJPhJcy/?igshid=YmMyMTA2M2Y=`)
+axios.get(`https://api.lolhuman.xyz/api/instagram?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+                var url = data.result
+                if (url.includes('.mp4')) {
+                    zaki.sendMessage(from, { video: { url }, mimetype: 'video/mp4' })
+                } else {
+                    zaki.sendMessage(from, { image: { url } })
+                }
+            })
+break
+case prefix+'igdl2': case prefix+'ig2': case prefix+'instagram2':
+if (args.length == 0) return replyt(`Example: ${prefix + command} https://www.instagram.com/p/Ci7uHJPhJcy/?igshid=YmMyMTA2M2Y=`)
+axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+                for (var x of data.result.media) {
+                    if (x.includes('.mp4')) {
+                        zaki.sendMessage(from, { video: { url: x }, mimetype: 'video/mp4' })
+                    } else {
+                        zaki.sendMessage(from, { image: { url: x } })
+                    }
+                }
+            })
+break
 //━━━━━━━━━━━━━━━[ STORE MENU ]━━━━━━━━━━━━━━━━━//
         case prefix+'shop': case prefix + 'list':
             if (!isGroup) return replyt(mess.OnlyGrup)
