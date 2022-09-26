@@ -830,6 +830,7 @@ axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${apikey}&url=${args[0
                 }
             })
 break
+			
 //━━━━━━━━━━━━━━━[ STORE MENU ]━━━━━━━━━━━━━━━━━//
         case prefix+'shop': case prefix + 'list':
             if (!isGroup) return replyt(mess.OnlyGrup)
