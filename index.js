@@ -50,14 +50,14 @@ let session = `./${setting.sessionName}.json`
 const { state, saveState } = useSingleFileAuthState(session)
 
 function title() {
-	  console.log(chalk.bold.blue(figlet.textSync('                  YUSUF', {
+	  console.log(chalk.bold.blue(figlet.textSync('                  AJR', {
 		font: 'Standard',
 		horizontalLayout: 'default',
 		verticalLayout: 'default',
 		width: 80,
 		whitespaceBreak: false
 	})))
-	console.log(chalk.yellow(`\n                        ${chalk.red('        [ Store - Bot]')}\n\n${chalk.italic.magenta('• Author')} : ${chalk.white('JO')}\n${chalk.italic.magenta('• YouTube')} : ${chalk.white('PANCA GAMA')}\n${chalk.italic.magenta('• Instagram')} : ${chalk.white('@pancagama.store')}\n${chalk.italic.magenta('• Caption')} : ${chalk.white('Y Tok')}\n`))
+	console.log(chalk.yellow(`\n                        ${chalk.red('        [ Store - Bot]')}\n\n${chalk.italic.magenta('• Author')} : ${chalk.white('JO')}\n${chalk.italic.magenta('• YouTube')} : ${chalk.white('PANCA GAMA')}\n${chalk.italic.magenta('• Instagram')} : ${chalk.white('@pancagama.store')}\n${chalk.italic.magenta('• Caption')} : ${chalk.white('Bismillah Semoga Lancar Rezeki Saya Hari Ini')}\n`))
 }
 
 /**
@@ -190,7 +190,7 @@ const connectToWhatsApp = async () => {
     zaki.ev.on('messages.delete', item => {
         if ('all' in item) {
             const list = messages[item.jid]
-            list === null || list === void 0 ? void 0 : list.clear()
+            list === null || list=== void 0 ? void 0 : list.clear()
         }
         else {
             const jid = item.keys[0].remoteJid
@@ -391,7 +391,7 @@ const connectToWhatsApp = async () => {
      * @param {*} options 
      * @returns 
      */
-    zaki.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+   zaki.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
         let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
         let buffer
         if (options && (options.packname || options.author)) {
